@@ -10,7 +10,7 @@
 #include "SPHBubbleParticles.h"
 #include "Kernels.h"
 #include "RandomNumber.h"
-#include "FluidEulerMetaIB.h"
+//#include "FluidEulerMetaIB.h"
 #include "EulerInitializer.h"
 #include "AnalyticalBoundary.h"
 #include "ArrayIO.h"

@@ -8,7 +8,7 @@ add_requires("tinyobjloader v2.0.0rc13")
 
 set_rundir("$(projectdir)")
 
-includes("./src/geometry/xmake.lua")
+includes("./src/physics/xmake.lua")
 
 target("sph_bubble")
     set_kind("binary")
@@ -18,4 +18,4 @@ target("sph_bubble")
     add_packages("perlinnoise", {public = true})
     add_packages("libomp")
     add_ldflags("-fopenmp")
-    add_deps("geometry")
+    add_deps("physics")
