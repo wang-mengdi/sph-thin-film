@@ -472,7 +472,7 @@ Inst_Helper(2,2);Inst_Helper(2,3);Inst_Helper(3,2);Inst_Helper(3,3);Inst_Helper(
 
 	template<class T_MESH> void Initialize_Herring_Bone_Mesh(const int m, const int n, const real dx, T_MESH* mesh, int axis_0, int axis_1)
 	{
-		using VectorD=Vector<real,mesh->Dim()>;
+		using VectorD=Vector<real,T_MESH::Dim()>;
 		mesh->elements.resize(2*(m-1)*(n-1));int t=0;
 		for(int i=1;i<=m-1;i++)for(int j=1;j<=n-1;j++){ // counterclockwise node ordering
 			if(i%2){mesh->elements[t++]=Vector3i(i+m*(j-1),i+1+m*(j-1),i+m*j);mesh->elements[t++]=Vector3i(i+1+m*(j-1),i+1+m*j,i+m*j);}
@@ -582,7 +582,8 @@ Inst_Helper(2,2);Inst_Helper(2,3);Inst_Helper(3,2);Inst_Helper(3,3);Inst_Helper(
 
 	template<class T_MESH> void Prune_Unused_Vertices(T_MESH* mesh)
 	{
-		const int d=mesh->Dim();const int e_d=mesh->Element_Dim();
+		constexpr int d=T_MESH::Dim();
+		constexpr int e_d= T_MESH::Element_Dim();
 		Hashset<int> flag;for(int i=0;i<mesh->Elements().size();i++)for(int j=0;j<e_d;j++){flag.insert(mesh->Elements()[i][j]);}
 		Array<int> mapping(mesh->Vertices().size(),-1);for(int i=0,c=0;i<mesh->Vertices().size();i++){if(flag.find(i)!=flag.end())mapping[i]=c++;}
 		Array<Vector<real,d> > pruned_vertices;for(int i=0;i<mesh->Vertices().size();i++)if(mapping[i]!=-1)pruned_vertices.push_back(mesh->Vertices()[i]);
