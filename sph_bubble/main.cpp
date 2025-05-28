@@ -20,10 +20,6 @@ void Set_Threads(ParseArgs& parse_args) {
 
 int main(int argc,char* argv[])
 {
-	SparseMatrixCuda<real> mt_dev(DataHolder::DEVICE);
-	SparseMatrix<real> mt_host(5, 5);
-	mt_dev = mt_host;
-
 	const int d = 3;
 
     ParseArgs parse_args;
