@@ -840,33 +840,33 @@ void PointSetFunc::Initialize_Catenoid_Points2(const Vector3& c, const real R, c
 }
 
 
-std::vector<int> PointSetFunc::Initialize_Catenoid_Points_Random(const Vector3& c, const real R, const real separation, const real dx, GeometryParticles<3>& particles)
+std::vector<int> PointSetFunc::Initialize_Catenoid_Points_Random(const Vector3& c, const real R, const real dx, GeometryParticles<3>& particles)
 {
 	real randomness = 0.5 * dx;
 	std::vector<Vector3, Eigen::aligned_allocator<Vector3>> pts;
 	std::vector<int> is_boundary;
-	real init_height = 2 * separation;
+	real init_height = R / 1.5;
 
 	int num_boundary = int(2 * pi * R / dx);
-	//for (int i = 0; i < num_boundary; i++) {
-	//	real x_coord = R * cos(((real)i / num_boundary) * (2 * pi));
-	//	real z_coord = R * sin(((real)i / num_boundary) * (2 * pi));
-	//	Vector3 curr_x;
-	//	curr_x << x_coord, 0, z_coord;
-	//	pts.push_back(curr_x);
-	//	is_boundary.push_back(1);
-	//	curr_x << x_coord, init_height, z_coord;
-	//	pts.push_back(curr_x);
-	//	is_boundary.push_back(2);
-	//}
+	for (int i = 0; i < num_boundary; i++) {
+		real x_coord = R * cos(((real)i / num_boundary) * (2 * pi));
+		real z_coord = R * sin(((real)i / num_boundary) * (2 * pi));
+		Vector3 curr_x;
+		curr_x << x_coord, 0, z_coord;
+		pts.push_back(curr_x);
+		is_boundary.push_back(1);
+		curr_x << x_coord, init_height, z_coord;
+		pts.push_back(curr_x);
+		is_boundary.push_back(2);
+	}
 
-	int num_fluid_particles = 8 * num_boundary;
+	int num_fluid_particles = 8 * (int)pts.size();
 
 	for (int i = 0; i < num_fluid_particles; i++) {
 		real angle = ((real)rand() / (RAND_MAX + 1.)) * 2 * pi;
 		real height = ((real)rand() / (RAND_MAX + 1.)) * (init_height - 1. * dx);
 		Vector3 curr_x;
-		curr_x << R * cos(angle), height -separation, R* sin(angle);
+		curr_x << R * cos(angle), height + 0.5*dx, R* sin(angle);
 		pts.push_back(curr_x);
 		is_boundary.push_back(0);
 	}

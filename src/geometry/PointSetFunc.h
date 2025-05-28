@@ -47,7 +47,7 @@ namespace PointSetFunc
 	void Initialize_Circle_Points_Random2(const Vector3& c, const real R, const real dx, GeometryParticles<3>& particles);
 	std::vector<int> Initialize_Catenoid_Points(const Vector3& c, const real R, const real dx, GeometryParticles<3>& particles);
 	void Initialize_Catenoid_Points2(const Vector3& c, const real R, const real separation, const real dx, GeometryParticles<3>& particles, real random, std::vector<int>* is_boundary);
-	std::vector<int> Initialize_Catenoid_Points_Random(const Vector3& c, const real R, const real separation, const real dx, GeometryParticles<3>& particles);
+	std::vector<int> Initialize_Catenoid_Points_Random(const Vector3& c, const real R, const real dx, GeometryParticles<3>& particles);
 	void Initialize_Rectangle_Points(const int nx, const int ny, const real dx, const Vector3& start, const Vector3& normal, GeometryParticles<3>& particles);
 	void Initialize_Box_Points(const int nx, const int ny, const int nz, const real dx, const Vector3& start, GeometryParticles<3>& particles);
 	std::vector<int> Initialize_Lattice_Points(const Vector3& domain_center, const Vector2i& counts, Vector3 k1, Vector3 k2, const real dx, GeometryParticles<3>& particles);//nx*ny cells, not nodes

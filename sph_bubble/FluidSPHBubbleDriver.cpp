@@ -261,10 +261,10 @@ real FluidSPHBubbleDriver<d>::Perlin_Noise(VectorD pos, std::uint32_t seed, real
 	const siv::PerlinNoise perlin(seed);
 	real noise_value;
 	if constexpr (d == 3) {
-		noise_value = perlin.accumulatedOctaveNoise3D(pos[0] * perlin_freq, pos[1] * perlin_freq, pos[2] * perlin_freq, octaves);
+		noise_value = perlin.octave3D(pos[0] * perlin_freq, pos[1] * perlin_freq, pos[2] * perlin_freq, octaves);
 	}
 	else {
-		noise_value = perlin.accumulatedOctaveNoise2D(pos[0] * perlin_freq, pos[1] * perlin_freq, octaves);
+		noise_value = perlin.octave2D(pos[0] * perlin_freq, pos[1] * perlin_freq, octaves);
 	}
 	return noise_value * perlin_scale;
 }
