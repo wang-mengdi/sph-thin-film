@@ -1,4 +1,5 @@
 #include "FluidSPHBubble.h"
+#include "Interpolation.h"
 
 template<int d>
 void MirrorCompensator<d>::Initialize(FluidSPHBubble<d>* _fluid, int idx, real _weight) {

@@ -52,7 +52,10 @@ void FluidSPHBubbleDriver<d>::Save_Snapshot(const int frame)
 	}
 	fluid.particles.Save_Snapshot(snapshot_dir);
 	if (fluid.fluid_3d != nullptr)fluid_3d.particles.Save_Snapshot(snapshot_dir + "/3d");
-	if (fluid.n_pressure_params.air_pressure_mode == "ib") fluid.air_solver.Save_Snapshot(snapshot_dir);
+	if (fluid.n_pressure_params.air_pressure_mode == "ib"){
+		assert(false && "Air solver output is not implemented for open source version.");
+		//fluid.air_solver.Save_Snapshot(snapshot_dir);
+	}
 }
 
 template<int d>
@@ -61,18 +64,22 @@ void FluidSPHBubbleDriver<d>::Load_Snapshot(const int frame)
 	std::string snapshot_dir = output_dir + "/snapshot/" + std::to_string(frame);
 	fluid.particles.Load_Snapshot(snapshot_dir);
 	if (fluid.fluid_3d != nullptr) fluid_3d.particles.Load_Snapshot(snapshot_dir + "/3d");
-	if (fluid.n_pressure_params.air_pressure_mode == "ib") fluid.air_solver.Load_Snapshot(snapshot_dir);
+	if (fluid.n_pressure_params.air_pressure_mode == "ib"){
+		assert(false && "Air solver output is not implemented for open source version.");
+		fluid.air_solver.Load_Snapshot(snapshot_dir);
+	}
 }
 
 template<int d>
 void FluidSPHBubbleDriver<d>::Write_Air_Solver(const int frame)
 {
-	if (frame == 0) {
-		fluid.air_solver.mac_grid.grid.Write_To_File_3d(frame_dir + "/grid");
-		fluid.air_solver.bc.Write_Psi_D_To_File_3d(frame_dir + "/psi_D");
-		fluid.air_solver.bc.Write_Psi_N_To_File_3d(frame_dir + "/psi_N");
-	}
-	fluid.air_solver.velocity.Write_To_File_3d(frame_dir + "/velocity");
+	assert(false && "Air solver output is not implemented for open source version.");
+	// if (frame == 0) {
+	// 	fluid.air_solver.mac_grid.grid.Write_To_File_3d(frame_dir + "/grid");
+	// 	fluid.air_solver.bc.Write_Psi_D_To_File_3d(frame_dir + "/psi_D");
+	// 	fluid.air_solver.bc.Write_Psi_N_To_File_3d(frame_dir + "/psi_N");
+	// }
+	// fluid.air_solver.velocity.Write_To_File_3d(frame_dir + "/velocity");
 }
 
 template<int d>
@@ -4978,103 +4985,104 @@ void FluidSPHBubbleDriver<d>::Case_50(void) //play with different init density
 template<int d>
 void FluidSPHBubbleDriver<d>::Case_51(void)
 {
-	if constexpr (d != 3) {
-		std::cout << "case_51 error: d!=3" << std::endl;
-	}
-	if constexpr (d == 3) {
+	assert(false && "Case_51 is not implemented for open source version");
+	// if constexpr (d != 3) {
+	// 	std::cout << "case_51 error: d!=3" << std::endl;
+	// }
+	// if constexpr (d == 3) {
 
-		real vel_term = 0.5, capillary_term = 0.5;
-		//std::ifstream fin(scene_file_name);
-		//if (!fin.is_open()) { std::cerr << "Driver Case_3 error: cannot open " << scene_file_name << "\n"; exit(0); }
-		//fin >> vel_term >> capillary_term;
-		//fin.close();
+	// 	real vel_term = 0.5, capillary_term = 0.5;
+	// 	//std::ifstream fin(scene_file_name);
+	// 	//if (!fin.is_open()) { std::cerr << "Driver Case_3 error: cannot open " << scene_file_name << "\n"; exit(0); }
+	// 	//fin >> vel_term >> capillary_term;
+	// 	//fin.close();
 
-		max_iter_per_frame = -1;
-		cfl = 1;
-		frame_rate = 50;
-		fluid.max_vel = 0.1;
+	// 	max_iter_per_frame = -1;
+	// 	cfl = 1;
+	// 	frame_rate = 50;
+	// 	fluid.max_vel = 0.1;
 
-		real R = (real)0.1;//0.1:1k, 0.3:11k, 1.0:126k
-		fluid.simulation_scale = R;
-		real dx = 0.005;
-		Array<int> is_boundary = PointSetFunc::Initialize_Circle_Points_Grid_Random(VectorD::Zero(), R, dx, fluid.particles);
+	// 	real R = (real)0.1;//0.1:1k, 0.3:11k, 1.0:126k
+	// 	fluid.simulation_scale = R;
+	// 	real dx = 0.005;
+	// 	Array<int> is_boundary = PointSetFunc::Initialize_Circle_Points_Grid_Random(VectorD::Zero(), R, dx, fluid.particles);
 
-		Set_Physical_Parameters();
-		real rho = 1e3;
-		fluid.thickness = 5e-7;//10um
-		real default_conc = 0;//"extreme soap"
-		real total_surface = pi * pow(2 * R, 2);//works for both 2D and 3D
-		real total_vol = total_surface * fluid.thickness;
-		real total_mass = total_vol * rho;
+	// 	Set_Physical_Parameters();
+	// 	real rho = 1e3;
+	// 	fluid.thickness = 5e-7;//10um
+	// 	real default_conc = 0;//"extreme soap"
+	// 	real total_surface = pi * pow(2 * R, 2);//works for both 2D and 3D
+	// 	real total_vol = total_surface * fluid.thickness;
+	// 	real total_mass = total_vol * rho;
 
-		VectorD ctr = VectorD::Unit(0) * (-2 * R);
-		MatrixD Rot; Rot << 0, 1, 0,
-			0, 0, 1,
-			1, 0, 0;
-		int n = fluid.particles.Size();
-		for (int i = 0; i < n; i++) {
-			Initialize_Particle(i, total_mass / n, fluid.thickness);
-			fluid.particles.B(i) = is_boundary[i];
-			fluid.particles.Vol(i) = total_vol / n;
-			fluid.particles.Conc(i) = default_conc;
-			fluid.particles.RH(i) = fluid.thickness;
-			fluid.particles.Apply_Rotation(i, Rot);
-			fluid.particles.Apply_Translation(i, ctr);
-		}
+	// 	VectorD ctr = VectorD::Unit(0) * (-2 * R);
+	// 	MatrixD Rot; Rot << 0, 1, 0,
+	// 		0, 0, 1,
+	// 		1, 0, 0;
+	// 	int n = fluid.particles.Size();
+	// 	for (int i = 0; i < n; i++) {
+	// 		Initialize_Particle(i, total_mass / n, fluid.thickness);
+	// 		fluid.particles.B(i) = is_boundary[i];
+	// 		fluid.particles.Vol(i) = total_vol / n;
+	// 		fluid.particles.Conc(i) = default_conc;
+	// 		fluid.particles.RH(i) = fluid.thickness;
+	// 		fluid.particles.Apply_Rotation(i, Rot);
+	// 		fluid.particles.Apply_Translation(i, ctr);
+	// 	}
 
-		real alpha_vis = dx * dx * rho / (fluid.viscosity_water) * frame_rate * 2;
+	// 	real alpha_vis = dx * dx * rho / (fluid.viscosity_water) * frame_rate * 2;
 
-		//world forces
-		fluid.gravity_coeff = 0;
-		//tangential force
-		fluid.t_pressure_params.Set_Baseline3(rho, fluid.gamma_water, fluid.thickness, frame_rate);
-		fluid.t_pressure_params.height_pressure_coeff *= 5;
-		fluid.divergence_params.calculate_field = "all";
-		fluid.viscosity_coeff = 0.4 * alpha_vis;
-		fluid.marangoni_coeff = 0;
-		//render height
-		fluid.rh_params = RenderHeightParams("divergence", true, true, 0.01);
-		//normal
-		fluid.normal_viscosity_coeff = 0;
-		fluid.n_pressure_params.Set_IB(R, fluid.gamma_water, rho, fluid.thickness);
-		fluid.n_pressure_params.capillary_coeff *= capillary_term;
-		fluid.n_pressure_params.ib_force_coeff = 2;
-		EulerInitializer<d> perimeter;
-		real source_speed = vel_term;
-		perimeter.Set_Domain(R, 10, AuxFunc::Vi<d>(6, 3, 3));
-		perimeter.Set_Boundary_Width(1, -1, 1, 1, 1, 1);
-		perimeter.Set_Boundary_Value(0, 0, 0, 0, 0, 0);
-		perimeter.Generate_Parameters();
-		//boundary
-		fluid.boundary_params.Set_Circle_Baseline(fluid.viscosity_coeff);
-		fluid.boundary_params.replenish = true;
-		fluid.boundary_params.replenish_interval = 1e-3;
-		fluid.boundary_params.replenish_dx_num = 1.5;
-		fluid.boundary_params.keep_xz_plane = false;
-		fluid.analytical_boundary.Add_Obstacle(std::make_shared<Tube<d>>(ctr, R, VectorD::Unit(0), 0.5 * R));
-		fluid.analytical_boundary.Add_Obstacle(std::make_shared<Plane<d>>(VectorD::Unit(0), ctr - VectorD::Unit(0) * (0.5 * dx)));
+	// 	//world forces
+	// 	fluid.gravity_coeff = 0;
+	// 	//tangential force
+	// 	fluid.t_pressure_params.Set_Baseline3(rho, fluid.gamma_water, fluid.thickness, frame_rate);
+	// 	fluid.t_pressure_params.height_pressure_coeff *= 5;
+	// 	fluid.divergence_params.calculate_field = "all";
+	// 	fluid.viscosity_coeff = 0.4 * alpha_vis;
+	// 	fluid.marangoni_coeff = 0;
+	// 	//render height
+	// 	fluid.rh_params = RenderHeightParams("divergence", true, true, 0.01);
+	// 	//normal
+	// 	fluid.normal_viscosity_coeff = 0;
+	// 	fluid.n_pressure_params.Set_IB(R, fluid.gamma_water, rho, fluid.thickness);
+	// 	fluid.n_pressure_params.capillary_coeff *= capillary_term;
+	// 	fluid.n_pressure_params.ib_force_coeff = 2;
+	// 	EulerInitializer<d> perimeter;
+	// 	real source_speed = vel_term;
+	// 	perimeter.Set_Domain(R, 10, AuxFunc::Vi<d>(6, 3, 3));
+	// 	perimeter.Set_Boundary_Width(1, -1, 1, 1, 1, 1);
+	// 	perimeter.Set_Boundary_Value(0, 0, 0, 0, 0, 0);
+	// 	perimeter.Generate_Parameters();
+	// 	//boundary
+	// 	fluid.boundary_params.Set_Circle_Baseline(fluid.viscosity_coeff);
+	// 	fluid.boundary_params.replenish = true;
+	// 	fluid.boundary_params.replenish_interval = 1e-3;
+	// 	fluid.boundary_params.replenish_dx_num = 1.5;
+	// 	fluid.boundary_params.keep_xz_plane = false;
+	// 	fluid.analytical_boundary.Add_Obstacle(std::make_shared<Tube<d>>(ctr, R, VectorD::Unit(0), 0.5 * R));
+	// 	fluid.analytical_boundary.Add_Obstacle(std::make_shared<Plane<d>>(VectorD::Unit(0), ctr - VectorD::Unit(0) * (0.5 * dx)));
 
-		fluid.delete_solitary = false;
+	// 	fluid.delete_solitary = false;
 
-		fluid.grad_force_params = OperatorParams("only_fluid", KernelType::SPIKY);
-		fluid.height_laplacian_params = OperatorParams("only_fluid", KernelType::GAUSSIAN);
+	// 	fluid.grad_force_params = OperatorParams("only_fluid", KernelType::SPIKY);
+	// 	fluid.height_laplacian_params = OperatorParams("only_fluid", KernelType::GAUSSIAN);
 
-		fluid.Initialize(dx, &perimeter);
+	// 	fluid.Initialize(dx, &perimeter);
 
-		real nozzle_radius = R * 0.5;
-		VectorD nozzle_ctr = AuxFunc::V<d>(-3, 0, 0) * R;
-		Sphere<d> sphere(nozzle_ctr, nozzle_radius);
-		for (auto p : fluid.air_solver.bc.psi_N_values) {
-			int axis = p.first[0];
-			int face_index = p.first[1];
-			VectorDi face = fluid.air_solver.mac_grid.Face_Coord(axis, face_index);
-			VectorD pos = fluid.air_solver.mac_grid.Face_Center(axis, face);
-			if (axis == 0 && sphere.Inside(pos)) {
-				fluid.air_solver.bc.Set_Psi_N(axis, face, source_speed);
-			}
-		}
-		fluid.air_solver.kernel_coeff = 0.9;
-	}
+	// 	real nozzle_radius = R * 0.5;
+	// 	VectorD nozzle_ctr = AuxFunc::V<d>(-3, 0, 0) * R;
+	// 	Sphere<d> sphere(nozzle_ctr, nozzle_radius);
+	// 	for (auto p : fluid.air_solver.bc.psi_N_values) {
+	// 		int axis = p.first[0];
+	// 		int face_index = p.first[1];
+	// 		VectorDi face = fluid.air_solver.mac_grid.Face_Coord(axis, face_index);
+	// 		VectorD pos = fluid.air_solver.mac_grid.Face_Center(axis, face);
+	// 		if (axis == 0 && sphere.Inside(pos)) {
+	// 			fluid.air_solver.bc.Set_Psi_N(axis, face, source_speed);
+	// 		}
+	// 	}
+	// 	fluid.air_solver.kernel_coeff = 0.9;
+	// }
 }
 
 template<int d>
