@@ -138,7 +138,10 @@ public:
 	//// normal force
 	NormalPressureParams n_pressure_params;
 	real normal_viscosity_coeff = 150;
-	FluidEulerMetaIB<d> air_solver;
+
+	//disabled for open source
+	//FluidEulerMetaIB<d> air_solver;
+
 	//// rh
 	RenderHeightParams rh_params;
 	//// boundary
@@ -219,12 +222,14 @@ public:
 	void Initialize(real _length_scale, EulerInitializer<d>* perimeter = nullptr, Fluid3DSPH<d>* solver3d = nullptr)
 	{
 		if (perimeter != nullptr) {
-			std::cout << "initialize with grid solver\n";
-			n_pressure_params.air_pressure_mode = "ib";
-			air_solver.Initialize(perimeter->cell_counts, perimeter->dx, perimeter->domain_min);
-			perimeter->Fill_Boundary_Condition(air_solver.bc);
-			air_solver.use_body_force = true;
-			air_solver.g = g * gravity_coeff;
+			static_assert(false, "FluidSPHBubble::Initialize: perimeter is not supported in open source version");
+
+			// std::cout << "initialize with grid solver\n";
+			// n_pressure_params.air_pressure_mode = "ib";
+			// air_solver.Initialize(perimeter->cell_counts, perimeter->dx, perimeter->domain_min);
+			// perimeter->Fill_Boundary_Condition(air_solver.bc);
+			// air_solver.use_body_force = true;
+			// air_solver.g = g * gravity_coeff;
 		}
 
 		fluid_3d = solver3d;
@@ -460,8 +465,9 @@ public:
 		timer.Reset();
 
 		if (n_pressure_params.air_pressure_mode == "ib") {
-			Prepare_Meta_IB_Advance();
-			air_solver.Advance(dt);
+			static_assert(false, "FluidSPHBubble::Advance: n_pressure_params.air_pressure_mode == ib is not supported in open source version");
+			// Prepare_Meta_IB_Advance();
+			// air_solver.Advance(dt);
 		}
 
 		if (n_pressure_params.pressure_decay > 0.) {
