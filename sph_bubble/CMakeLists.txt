@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.18)
+set(proj_name sph_bubble)
+project(${proj_name})
+include(${PROJECT_SOURCE_DIR}/../../../simplex/script/functions.cmake)
+init_project(${PROJECT_SOURCE_DIR}/../../../simplex)
+use_ext_libs(LINK "cuda;openmp;physbam;tiny_obj_loader;perlin_noise")
+use_src_libs(SELF "physics;")
+setup_exe_target()
