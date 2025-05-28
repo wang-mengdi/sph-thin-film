@@ -66,7 +66,7 @@ void FluidSPHBubbleDriver<d>::Load_Snapshot(const int frame)
 	if (fluid.fluid_3d != nullptr) fluid_3d.particles.Load_Snapshot(snapshot_dir + "/3d");
 	if (fluid.n_pressure_params.air_pressure_mode == "ib"){
 		assert(false && "Air solver output is not implemented for open source version.");
-		fluid.air_solver.Load_Snapshot(snapshot_dir);
+		//fluid.air_solver.Load_Snapshot(snapshot_dir);
 	}
 }
 

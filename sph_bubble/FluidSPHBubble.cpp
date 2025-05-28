@@ -1,5 +1,4 @@
 #include "FluidSPHBubble.h"
-#include "Interpolation.h"
 
 template<int d>
 void MirrorCompensator<d>::Initialize(FluidSPHBubble<d>* _fluid, int idx, real _weight) {
@@ -36,34 +35,36 @@ real MirrorCompensator<d>::Coeff_Offset(VectorT lr_ij, int order) {
 template<int d>
 void FluidSPHBubble<d>::Prepare_Meta_IB_Advance(void)
 {
-	const auto& mac_grid = air_solver.mac_grid;
-	iterate_face(axis, iter, mac_grid) {
-		const VectorDi face = iter.Coord();
-		VectorD pos = mac_grid.Face_Center(axis, face);
-		int idx = surface.nbs_searcher->Find_Nearest_Nb(pos);
-		if (idx != -1) {
-			real phi = (particles.X(idx) - pos).norm();
-			air_solver.alpha(axis, face) = air_solver.IB_Kernel_Fluid(phi);
-			air_solver.body_velocity(axis, face) = particles.V(idx)[axis];
-		}
-		else {
-			air_solver.alpha(axis, face) = 1.0;
-			air_solver.body_velocity(axis, face) = 0;
-		}
-	}
+	assert(false && "Prepare_Meta_IB_Advance is not implemented for open source version.");
+	// const auto& mac_grid = air_solver.mac_grid;
+	// iterate_face(axis, iter, mac_grid) {
+	// 	const VectorDi face = iter.Coord();
+	// 	VectorD pos = mac_grid.Face_Center(axis, face);
+	// 	int idx = surface.nbs_searcher->Find_Nearest_Nb(pos);
+	// 	if (idx != -1) {
+	// 		real phi = (particles.X(idx) - pos).norm();
+	// 		air_solver.alpha(axis, face) = air_solver.IB_Kernel_Fluid(phi);
+	// 		air_solver.body_velocity(axis, face) = particles.V(idx)[axis];
+	// 	}
+	// 	else {
+	// 		air_solver.alpha(axis, face) = 1.0;
+	// 		air_solver.body_velocity(axis, face) = 0;
+	// 	}
+	// }
 }
 
 template<int d>
 real FluidSPHBubble<d>::IB_Pressure_Gradient(int idx, real dt)
 {
-	real dx = air_solver.mac_grid.grid.dx * 0.5;
-	VectorD norm = particles.Normal(idx);
-	VectorD up_pt = particles.X(idx) + norm * dx;
-	VectorD down_pt = particles.X(idx) - norm * dx;
-	real grad_p = (air_solver.Pressure_At(up_pt) - air_solver.Pressure_At(down_pt)) / (2 * dx);
-	//note: pressure in Eularian fluid solver is -dt/rho*p actually
-	grad_p = -grad_p / dt * n_pressure_params.air_density;
-	return grad_p;
+	assert(false && "IB_Pressure_Gradient is not implemented for open source version.");
+	// real dx = air_solver.mac_grid.grid.dx * 0.5;
+	// VectorD norm = particles.Normal(idx);
+	// VectorD up_pt = particles.X(idx) + norm * dx;
+	// VectorD down_pt = particles.X(idx) - norm * dx;
+	// real grad_p = (air_solver.Pressure_At(up_pt) - air_solver.Pressure_At(down_pt)) / (2 * dx);
+	// //note: pressure in Eularian fluid solver is -dt/rho*p actually
+	// grad_p = -grad_p / dt * n_pressure_params.air_density;
+	// return grad_p;
 }
 
 template<int d>
@@ -230,8 +231,9 @@ void FluidSPHBubble<d>::Update_Max_Velocity(void)
 		max_vel = std::max(max_vel, particles.V(i).norm());
 	}
 	if (n_pressure_params.air_pressure_mode == "ib") {
-		real nominal_vel = air_solver.max_vel * length_scale / air_solver.mac_grid.grid.dx;
-		max_vel = std::max(max_vel, nominal_vel);
+		assert(false && "IB in Update_Max_Velocity is not implemented for open source version.");
+		// real nominal_vel = air_solver.max_vel * length_scale / air_solver.mac_grid.grid.dx;
+		// max_vel = std::max(max_vel, nominal_vel);
 	}
 }
 
@@ -1119,11 +1121,12 @@ void FluidSPHBubble<d>::Update_Normal_Pressure_Forces(real dt)
 		//std::cout << "phase velocity predicted: " << std::setiosflags(std::ios::fixed) << std::setprecision(8) << sqrt(c02) << "\n";
 		particles.F(i) += pressure_difference * particles.SA(i) * params.capillary_coeff * particles.Normal(i);
 		if (params.air_pressure_mode == "ib") {
-			Interpolation<d> intp(air_solver.mac_grid);
-			VectorD ib_vel = intp.Interpolate_Face_Vectors(air_solver.velocity, particles.X(i));
-			VectorD ib_friction_force = (ib_vel - particles.V(i)) * particles.M(i) * params.ib_force_coeff;
-			particles.F(i) += ib_friction_force;
-			//particles.F(i) += ib_friction_force.dot(particles.Normal(i)) * particles.Normal(i);
+			assert(false && "air pressure mode ib is not implemented for open source version.");
+			// Interpolation<d> intp(air_solver.mac_grid);
+			// VectorD ib_vel = intp.Interpolate_Face_Vectors(air_solver.velocity, particles.X(i));
+			// VectorD ib_friction_force = (ib_vel - particles.V(i)) * particles.M(i) * params.ib_force_coeff;
+			// particles.F(i) += ib_friction_force;
+			// //particles.F(i) += ib_friction_force.dot(particles.Normal(i)) * particles.Normal(i);
 		}
 		//particles.F(i) += -particles.M(i) * 0.5 * particles.Normal(i);// this is just to see what happens, please delete
 	}
