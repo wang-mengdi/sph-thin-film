@@ -223,7 +223,7 @@ public:
 	void Initialize(real _length_scale, EulerInitializer<d>* perimeter = nullptr, Fluid3DSPH<d>* solver3d = nullptr)
 	{
 		if (perimeter != nullptr) {
-			static_assert(false, "FluidSPHBubble::Initialize: perimeter is not supported in open source version");
+			assert(false && "FluidSPHBubble::Initialize: perimeter is not supported in open source version");
 
 			// std::cout << "initialize with grid solver\n";
 			// n_pressure_params.air_pressure_mode = "ib";
@@ -466,7 +466,7 @@ public:
 		timer.Reset();
 
 		if (n_pressure_params.air_pressure_mode == "ib") {
-			static_assert(false, "FluidSPHBubble::Advance: n_pressure_params.air_pressure_mode == ib is not supported in open source version");
+			assert(false && "FluidSPHBubble::Advance: n_pressure_params.air_pressure_mode == ib is not supported in open source version");
 			// Prepare_Meta_IB_Advance();
 			// air_solver.Advance(dt);
 		}

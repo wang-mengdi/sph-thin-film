@@ -38,11 +38,18 @@ void FluidSPHBubbleDriver<d>::Write_Scalar_Field(std::string file_name, const Ar
 template<int d>
 void FluidSPHBubbleDriver<d>::Save_Snapshot(const int frame)
 {
+	namespace fs = std::filesystem;
 	std::cout << "save snapshot for frame " << frame << "\n"; fluid.Numerical_Check_Force();
 	std::string snapshot_dir = output_dir + "/snapshot/" + std::to_string(frame);
 	std::string snapshot_dir_3d = snapshot_dir + "/3d";
-	if (!File::Directory_Exists(snapshot_dir.c_str())) File::Create_Directory(snapshot_dir);
-	if (!File::Directory_Exists(snapshot_dir_3d.c_str())) File::Create_Directory(snapshot_dir_3d);
+	if(!fs::exists(snapshot_dir)) {
+		std::cout << "#     Create snapshot directory: " << snapshot_dir << std::endl;
+		fs::create_directories(snapshot_dir);
+	}
+	if(!fs::exists(snapshot_dir_3d)) {
+		std::cout << "#     Create snapshot directory: " << snapshot_dir_3d << std::endl;
+		fs::create_directories(snapshot_dir_3d);
+	}
 	fluid.particles.Save_Snapshot(snapshot_dir);
 	if (fluid.fluid_3d != nullptr)fluid_3d.particles.Save_Snapshot(snapshot_dir + "/3d");
 	if (fluid.n_pressure_params.air_pressure_mode == "ib") fluid.air_solver.Save_Snapshot(snapshot_dir);

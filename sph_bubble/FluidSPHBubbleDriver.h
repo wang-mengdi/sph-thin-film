@@ -13,6 +13,8 @@
 #include "PerlinNoise.hpp"
 #include "Fluid3DSPH.h"
 
+#include "omp.h"
+
 template<int d> class FluidSPHBubbleDriver : public Driver
 {
 	Typedef_VectorDii(d);
