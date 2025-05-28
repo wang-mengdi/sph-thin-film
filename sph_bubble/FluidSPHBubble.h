@@ -16,6 +16,7 @@
 #include "ArrayIO.h"
 #include "BubbleParams.h"
 #include "Fluid3DSPH.h"
+#include "Timer.h"
 
 #include <numeric>      // std::iota
 #include<iomanip>
