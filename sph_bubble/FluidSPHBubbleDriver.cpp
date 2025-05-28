@@ -876,7 +876,7 @@ void FluidSPHBubbleDriver<d>::Case_10(void) ////2D Disk in 3D but with grid part
 	if (first_frame < 1) {
 		for (int i = 0; i < fluid.particles.Size(); i++) {
 			perlin_freq = 20.;
-			perlin_inc = perlin.accumulatedOctaveNoise3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
+			perlin_inc = perlin.octave3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
 			real perlin_multiplier_V = std::max(0.1, 1 + (perlin_inc * 1.));
 			//real perlin_multiplier_V = 1.;
 			fluid.particles.Vol(i) *= perlin_multiplier_V;
@@ -884,7 +884,7 @@ void FluidSPHBubbleDriver<d>::Case_10(void) ////2D Disk in 3D but with grid part
 			//std::cout << "Multiplier Perlina: " << std::max(0.1, 1 + (perlin_inc * 1)) << std::endl;
 			//add mass perlin noise
 			perlin_freq = 5.;
-			perlin_inc = perlin.accumulatedOctaveNoise3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
+			perlin_inc = perlin.octave3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
 			real perlin_multiplier_density = std::max(0.1, 1 + (perlin_inc * 1.));
 			//std::cout << "Multiplier Perlina: " << std::max(0.7, 1 + (perlin_inc * 0.2)) << std::endl;
 			//add mass perlin noise
@@ -3664,7 +3664,7 @@ void FluidSPHBubbleDriver<d>::Case_40(void)
 		if (first_frame < 1) {
 			for (int i = 0; i < fluid.particles.Size(); i++) {
 				perlin_freq = 5.;
-				perlin_inc = perlin.accumulatedOctaveNoise3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
+				perlin_inc = perlin.octave3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
 				real perlin_multiplier_V = std::max(0.1, 1 + (perlin_inc * 1.));
 				//real perlin_multiplier_V = 1.;
 				fluid.particles.Vol(i) *= perlin_multiplier_V;
@@ -3672,7 +3672,7 @@ void FluidSPHBubbleDriver<d>::Case_40(void)
 				std::cout << "Multiplier Perlina: " << std::max(0.1, 1 + (perlin_inc * 1)) << std::endl;
 								//add mass perlin noise
 				perlin_freq = 20.;
-				perlin_inc = perlin.accumulatedOctaveNoise3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
+				perlin_inc = perlin.octave3D(fluid.particles.X(i)[0] * perlin_freq, fluid.particles.X(i)[1] * perlin_freq, fluid.particles.X(i)[2] * perlin_freq, octaves);
 				real perlin_multiplier_density = std::max(0.1, 1 + (perlin_inc * 1.));
 				std::cout << "Multiplier Perlina: " << std::max(0.7, 1 + (perlin_inc * 2.)) << std::endl;
 				//add mass perlin noise
