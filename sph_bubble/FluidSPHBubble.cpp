@@ -65,6 +65,8 @@ real FluidSPHBubble<d>::IB_Pressure_Gradient(int idx, real dt)
 	// //note: pressure in Eularian fluid solver is -dt/rho*p actually
 	// grad_p = -grad_p / dt * n_pressure_params.air_density;
 	// return grad_p;
+
+	return 0;
 }
 
 template<int d>

@@ -12,6 +12,7 @@
 #include <queue>
 #include <array>
 #include <memory>
+#include <filesystem>
 
 ////Eigen vector math type alias
 using Quaternionf=Eigen::Quaternionf;
