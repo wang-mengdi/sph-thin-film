@@ -1,6 +1,7 @@
 # Thin-Film Smoothed Particle Hydrodynamics Fluid
 
 [Mengdi Wang](https://wang-mengdi.github.io/), [Yitong Deng](https://yitongdeng.github.io/), Xiangxin Kong, Aditya H. Prasad, [Shiying Xiong](https://shiyingxiong.github.io/), [Bo Zhu](https://faculty.cc.gatech.edu/~bozhu/)
+
 [![webpage](https://img.shields.io/badge/Project-Homepage-green)](./proj/21-thin-film-sph/)
 [![paper](https://img.shields.io/badge/Paper-Public-red)](https://cs.dartmouth.edu/~bozhu/papers/sph_bubble.pdf)
 [![code](https://img.shields.io/badge/Source_Code-Github-blue)](https://wang-mengdi.github.io/proj/21-thin-film-sph/)
@@ -27,7 +28,7 @@ We propose a particle-based method to simulate thin-film fluid that jointly faci
 
         $ xmake r sph_bubble -test 18 -o output
 
-The point positions etc. will be saved as binary files in `./output`. Please contact me if you need assistance with visualization.
+The point positions etc. will be saved as binary files in `./output`. Feel free to [contact me](https://wang-mengdi.github.io/) if you need assistance with visualization.
 
 For those interested in simulating bubbles, we encourage you to follow our subsequent work:
 
