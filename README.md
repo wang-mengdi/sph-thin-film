@@ -2,9 +2,9 @@
 
 [Mengdi Wang](https://wang-mengdi.github.io/), [Yitong Deng](https://yitongdeng.github.io/), Xiangxin Kong, Aditya H. Prasad, [Shiying Xiong](https://shiyingxiong.github.io/), [Bo Zhu](https://faculty.cc.gatech.edu/~bozhu/)
 
-[![webpage](https://img.shields.io/badge/Project-Homepage-green)](./proj/21-thin-film-sph/)
+[![webpage](https://img.shields.io/badge/Project-Homepage-green)](https://wang-mengdi.github.io/proj/21-thin-film-sph/)
 [![paper](https://img.shields.io/badge/Paper-Public-red)](https://cs.dartmouth.edu/~bozhu/papers/sph_bubble.pdf)
-[![code](https://img.shields.io/badge/Source_Code-Github-blue)](https://wang-mengdi.github.io/proj/21-thin-film-sph/)
+[![code](https://img.shields.io/badge/Source_Code-Github-blue)](https://github.com/wang-mengdi/sph-thin-film)
 
 This repo stores the source code of our SIGGRAPH 2021 paper **Thin-Film Smoothed Particle Hydrodynamics Fluid**.
 
