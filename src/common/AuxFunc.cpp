@@ -7,6 +7,7 @@
 #include "Constants.h"
 #include <iostream>
 #include <cmath>
+#include <filesystem>
 
 namespace AuxFunc{
 	template<> bool Outside<1>(const Vector1i& domain,const Vector1i& p){return p[0]<0||p[0]>=domain[0];}
@@ -212,22 +213,16 @@ namespace AuxFunc{
 
 namespace Path
 {
-#define STRINGIZE(x) #x
 	std::string Script()
 	{
-#ifdef SCRIPT_PATH
-		return STRINGIZE(SCRIPT_PATH);
-#else
-		return "../../../../script/";	////assuming the current path is in the exe folder
-#endif	
+		// get absolute path of this source file at compile time
+		std::filesystem::path src(__FILE__);
+		return (src.parent_path() / "script").string();
 	}
 
 	std::string Data()
 	{
-#ifdef DATA_PATH
-		return STRINGIZE(DATA_PATH);
-#else
-		return "../../../../data/";	////assuming the current path is in the exe folder
-#endif
+		std::filesystem::path src(__FILE__);
+		return (src.parent_path() / "data").string();
 	}
 }

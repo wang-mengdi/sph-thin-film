@@ -151,7 +151,10 @@ void OpenGLWindow::Display_Offscreen()
         for(int i=0;i<h;i++){int offset=w*num_comp*(h-i-1);
             std::memcpy(pixels_flipped_y+offset,pixels+w*num_comp*i,w*num_comp);}
         int wrt_frame=display_offscreen_interactive?frame_offscreen_rendered++:frame_offscreen;
-        if(!File::Directory_Exists(offscreen_output_dir.c_str()))File::Create_Directory(offscreen_output_dir);
+		if (!std::filesystem::exists(offscreen_output_dir)) {
+			std::filesystem::create_directories(offscreen_output_dir);
+		}
+        //if(!File::Directory_Exists(offscreen_output_dir.c_str()))File::Create_Directory(offscreen_output_dir);
         std::stringstream ss;ss<<offscreen_output_dir<<"/"<<std::setfill('0')<<std::setw(4)<<wrt_frame<<".png";
         std::cout<<"Offscreen render to image "<<ss.str()<<std::endl;
         int rst=Stb::Write_Png(ss.str().c_str(),w,h,num_comp,pixels_flipped_y,0);

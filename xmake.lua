@@ -1,6 +1,13 @@
 add_rules("mode.debug", "mode.release", "mode.releasedbg")
 set_languages("c++17")
 
+if is_plat("windows") then
+    add_defines("WIN32")
+elseif is_plat("linux") then
+    add_defines("__linux__")
+end
+
+
 add_requires("perlinnoise >=3.0.0")
 add_requires("libomp")
 add_requires("tinyobjloader v2.0.0rc13")
