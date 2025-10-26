@@ -24,9 +24,11 @@ We propose a particle-based method to simulate thin-film fluid that jointly faci
 
         $ cd sph-thin-film
         $ xmake -v sph_bubble
+        # xmake -v viewer
 3. Run the half bubble example code
 
         $ xmake r sph_bubble -test 18 -o output
+        $ xmake r viewer -m sph_bubble -o output 
 
 The point positions etc. will be saved as binary files in `./output`. Feel free to [contact me](https://wang-mengdi.github.io/) if you need assistance with visualization.
 
